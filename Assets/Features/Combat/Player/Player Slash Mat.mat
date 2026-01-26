@@ -42,9 +42,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Progress: 0.215
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Slash_Speed: 2
+    - _Slash_Speed: 10
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

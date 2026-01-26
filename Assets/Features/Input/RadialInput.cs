@@ -2,11 +2,11 @@ using System;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Clash.Utillities;
 
 public class RadialInput : SingletonMonoBehaviour<RadialInput>
 {
     private Vector2 _pivot;
-    private Vector2 _direction;
     private Vector2 _mouseWorldPosition;
     private float _angle;
     
@@ -15,6 +15,8 @@ public class RadialInput : SingletonMonoBehaviour<RadialInput>
 
     [HideInInspector]
     public Vector2 inputPosition;
+    [HideInInspector]
+    public Vector2 direction;
 
     [CanBeNull] private Camera _mainCam;
 
@@ -36,7 +38,7 @@ public class RadialInput : SingletonMonoBehaviour<RadialInput>
     {
         if (!_mainCam) return;
         _mouseWorldPosition = _mainCam.ScreenToWorldPoint(Input.mousePosition);
-        _direction = (_mouseWorldPosition - _pivot).normalized;
-        inputPosition = _direction * radius;
+        direction = (_mouseWorldPosition - _pivot).normalized;
+        inputPosition = direction * radius;
     }
 }
