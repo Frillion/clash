@@ -1,0 +1,1 @@
+Maybe change the slash effect into a trail renderer/particle emission
