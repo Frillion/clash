@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8118341370162591977}
   - component: {fileID: 5698271672780435661}
+  - component: {fileID: 237442980376488831}
   m_Layer: 0
   m_Name: WingNode
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3312200947059487517}
@@ -88,6 +89,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &237442980376488831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6578626522068979055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2750d9fd2b4674b86a5db6eb9e5ad25b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+  spRenderer: {fileID: 0}
+  radius: 0
 --- !u!1 &7680609177058082457
 GameObject:
   m_ObjectHideFlags: 0
