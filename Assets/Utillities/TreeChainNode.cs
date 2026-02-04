@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,7 +21,18 @@ namespace Clash.Utillities
             Vector2 newPos = constraintPosition - (Vector3)dir.normalized * segmentLength;
             return dir.magnitude > segmentLength ? Vector2.Lerp(constrainedPosition, newPos,strength/100) : constrainedPosition;
         }
-        
+
+        public async UniTask MoveSelfAndChildren(Vector3 offset, int delay, CancellationToken token, float strength = 100)
+        {
+            await UniTask.Delay(delay, DelayType.DeltaTime, cancellationToken: token);
+            if (token.IsCancellationRequested) return;
+            transform.position += offset * (strength / 100);
+            foreach (var current in children)
+            {
+                current.MoveSelfAndChildren(offset, delay, token, current.influence).Forget();
+            }
+        }
+
         public void Resolve()
         {
             foreach (var current in children)

@@ -10,8 +10,9 @@ public class WingAnimation : MonoBehaviour
 {
     private List<WingNode> _wingNodes;
     private int _currentIndex;
-    [SerializeField]
-    private float kinematicRadius;
+    [SerializeField] private float animationStrength;
+    [SerializeField] private float animationSpeed;
+    [SerializeField] private float kinematicRadius;
 
     private CancellationTokenSource _cancelChain;
 
@@ -44,6 +45,17 @@ public class WingAnimation : MonoBehaviour
             this.GetCancellationTokenOnDestroy(),CancellationToken.None);
         
         ResolveWingChain(_cancelChain.Token).Forget();
+        Animate(_cancelChain.Token).Forget();
+    }
+
+    private async UniTask Animate(CancellationToken token)
+    {
+        var root = _wingNodes.First(node => node.rootNode);
+        while (!token.IsCancellationRequested)
+        {
+            var offset = Mathf.Round(Mathf.Sin(Time.time * Mathf.Deg2Rad * 360 * animationSpeed)) * animationStrength;
+            await root.MoveSelfAndChildren(new Vector3(0, offset, 0), 20, token);
+        }
     }
 
     private async UniTask ResolveWingChain(CancellationToken token)
