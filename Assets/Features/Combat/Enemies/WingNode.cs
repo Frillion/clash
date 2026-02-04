@@ -8,8 +8,8 @@ public class WingNode : TreeChainNode
 {
     [HideInInspector]
     public int index;
-    [HideInInspector]
-    public SpriteRenderer spRenderer;
+
+    [HideInInspector] public SpriteRenderer spRenderer;
 
     public void Awake()
     {
