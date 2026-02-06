@@ -101,9 +101,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2750d9fd2b4674b86a5db6eb9e5ad25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rootNode: 0
+  initialPosition: {x: 0, y: 0, z: 0}
+  segmentLength: 0
+  influence: 0
+  children: []
   index: 0
   spRenderer: {fileID: 0}
-  radius: 0
 --- !u!1 &7680609177058082457
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,7 +1108,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2206,7 +2210,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2

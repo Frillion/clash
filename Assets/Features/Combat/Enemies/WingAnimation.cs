@@ -54,7 +54,7 @@ public class WingAnimation : MonoBehaviour
         while (!token.IsCancellationRequested)
         {
             var offset = Mathf.Round(Mathf.Sin(Time.time * Mathf.Deg2Rad * 360 * animationSpeed)) * animationStrength;
-            await root.MoveSelfAndChildren(new Vector3(0, offset, 0), 20, token);
+            await root.MoveSelfAndChildren(new Vector3(0, offset, 0), 400, token);
         }
     }
 

@@ -11,8 +11,9 @@ public class WingNode : TreeChainNode
 
     [HideInInspector] public SpriteRenderer spRenderer;
 
-    public void Awake()
+    public new void Awake()
     {
+        base.Awake();
         spRenderer = GetComponent<SpriteRenderer>();
     }
     

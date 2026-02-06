@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -10,10 +11,16 @@ namespace Clash.Utillities
     public class TreeChainNode : MonoBehaviour
     {
         public bool rootNode;
+        [HideInInspector] public Vector3 initialPosition;
         [HideInInspector] public float segmentLength;
         [Range(0.0f, 100.0f)]
         public float influence;
         public List<TreeChainNode> children;
+
+        public void Awake()
+        {
+            initialPosition = transform.position;
+        }
 
         private Vector2 PointConstraint(Vector3 constraintPosition, Vector3 constrainedPosition, float strength)
         {
@@ -22,14 +29,19 @@ namespace Clash.Utillities
             return dir.magnitude > segmentLength ? Vector2.Lerp(constrainedPosition, newPos,strength/100) : constrainedPosition;
         }
 
-        public async UniTask MoveSelfAndChildren(Vector3 offset, int delay, CancellationToken token, float strength = 100)
+        public async UniTask MoveSelfAndChildren(Vector3 anchor, int delay, CancellationToken token, bool ignoreFirst = true, float strength = 100)
         {
-            await UniTask.Delay(delay, DelayType.DeltaTime, cancellationToken: token);
+            if (!ignoreFirst)
+            {
+                await UniTask.Delay(delay, DelayType.DeltaTime, cancellationToken: token);
+            }
+
+            await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken: token);
             if (token.IsCancellationRequested) return;
-            transform.position += offset * (strength / 100);
+            transform.position = initialPosition + anchor * strength/100;
             foreach (var current in children)
             {
-                current.MoveSelfAndChildren(offset, delay, token, current.influence).Forget();
+                current.MoveSelfAndChildren(anchor, delay, token, false, current.influence).Forget();
             }
         }
 
