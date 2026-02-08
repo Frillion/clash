@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 public class ProjectileBase : Spawnable, IProjectile 
 {
     private static readonly int Velocity = Shader.PropertyToID("_velocity");
-    public Guid ID;
+    private Guid _id;
     public float acceleration;
     public float initialVelocity;
     public float stretchStrength;
@@ -44,17 +44,22 @@ public class ProjectileBase : Spawnable, IProjectile
     {
         if (other.gameObject.CompareTag("slash"))
         {
-            Debug.Log("Reflect detected");
-           ProjectileManager.Instance.NotifyReflection(this); 
+            ProjectileManager.Instance.NotifyReflection(this); 
+        }
+
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Damaged Player");
+            other.gameObject.GetComponent<IHealth>().Damage(10);
         }
     }
 
     public Guid GetGuid()
     {
-        return ID;
+        return _id;
     }
 
-    public void SetGuid(Guid id) { ID = id; }
+    public void SetGuid(Guid id) { _id = id; }
 
     public async UniTask OnReflected(Vector2 origin, CancellationToken token)
     {
