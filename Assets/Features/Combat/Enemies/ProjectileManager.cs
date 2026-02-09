@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Clash.Features.Combat.Enemies
+namespace Clash.Features.Combat
 {
     public interface IProjectile
     {

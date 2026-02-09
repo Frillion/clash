@@ -135,7 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 761894676619173312}
-  - component: {fileID: 2228535413133014813}
+  - component: {fileID: -791900079942978967}
   m_Layer: 0
   m_Name: crow
   m_TagString: Untagged
@@ -161,7 +161,7 @@ Transform:
   - {fileID: 1597437433085733477}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2228535413133014813
+--- !u!114 &-791900079942978967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,11 +170,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 2701484854777710108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64172a2ca564b191b21c76bf19fa853, type: 3}
+  m_Script: {fileID: 11500000, guid: b8a7e0d43bd3c6c89b82bc38f223c328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationSpeed: 2.5
-  animationStrength: 0.001
+  Spawned: 0
+  smoothing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  movementAnimationDuration: 1
 --- !u!1 &4449835432089002877
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5966110717828972050}
   - component: {fileID: 3481150515195366860}
+  - component: {fileID: 5940859172322863462}
   m_Layer: 0
   m_Name: main body
   m_TagString: Untagged
@@ -262,6 +287,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5940859172322863462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449835432089002877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a64172a2ca564b191b21c76bf19fa853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationSpeed: 2.5
+  animationStrength: 0.001
 --- !u!1001 &2859809989479579360
 PrefabInstance:
   m_ObjectHideFlags: 0

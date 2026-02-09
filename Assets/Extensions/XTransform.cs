@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Extensions
+namespace Clash.Extensions
 {
     public static class XTransform  
     {

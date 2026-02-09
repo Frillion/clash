@@ -19,7 +19,7 @@ namespace Clash.Utillities
 
         public void Awake()
         {
-            initialPosition = transform.position;
+            initialPosition = transform.localPosition;
         }
 
         private Vector2 PointConstraint(Vector3 constraintPosition, Vector3 constrainedPosition, float strength)
@@ -38,7 +38,7 @@ namespace Clash.Utillities
 
             await UniTask.NextFrame(PlayerLoopTiming.Update, cancellationToken: token);
             if (token.IsCancellationRequested) return;
-            transform.position = initialPosition + anchor * strength/100;
+            transform.localPosition = initialPosition + anchor * strength/100;
             foreach (var current in children)
             {
                 current.MoveSelfAndChildren(anchor, delay, token, false, current.influence).Forget();

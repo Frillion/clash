@@ -4,31 +4,35 @@ using UnityEngine;
 using Clash.Utillities;
 using Unity.VisualScripting;
 
-public class TargettingIndicator : MonoBehaviour
+namespace Clash.Features.Combat
 {
-    [SerializeField] private float slashDuration;
-    [SerializeField] private float cooldown;
-    [SerializeField] private SlashLifetime slashPrefab;
-    private ObjectPool<SlashLifetime> _slashPool;
-
-    private void Awake()
+    public class TargettingIndicator : MonoBehaviour
     {
-        _slashPool = new ObjectPool<SlashLifetime>().CreateObjectPool(
-            slashPrefab,
-            initialPoolSize:2
-            );
-    }
+        [SerializeField] private float slashDuration;
+        [SerializeField] private float cooldown;
+        [SerializeField] private SlashLifetime slashPrefab;
+        private ObjectPool<SlashLifetime> _slashPool;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
+        private void Awake()
         {
-            var newSlash = _slashPool.Spawn(transform.position);
-            newSlash.transform.right = RadialInput.Instance.direction;
-            newSlash.Initialize(slashDuration);
+            _slashPool = new ObjectPool<SlashLifetime>().CreateObjectPool(
+                slashPrefab,
+                initialPoolSize:2
+            );
         }
 
-        transform.position = RadialInput.Instance.inputPosition;
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                var newSlash = _slashPool.Spawn(transform.position);
+                newSlash.transform.right = RadialInput.Instance.direction;
+                newSlash.Initialize(slashDuration);
+            }
+
+            transform.position = RadialInput.Instance.inputPosition;
+        }
     }
 }
+

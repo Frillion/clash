@@ -38,9 +38,12 @@ public class WingAnimation : MonoBehaviour
         });
     }
 
-    public void Awake()
+    public void Init()
     {
         GrabAndSetupNodes();
+        
+        _cancelChain?.Cancel();
+        _cancelChain?.Dispose();
         _cancelChain = CancellationTokenSource.CreateLinkedTokenSource(
             this.GetCancellationTokenOnDestroy(),CancellationToken.None);
         
