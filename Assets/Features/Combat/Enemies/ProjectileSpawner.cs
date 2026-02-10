@@ -25,6 +25,7 @@ namespace Clash.Features.Combat
             while (!token.IsCancellationRequested)
             {
                 await UniTask.WaitForSeconds(cooldown, cancellationToken: token);
+                await TimeManager.Instance.PauseGuard(token);
                 ProjectileManager.Instance.SpawnProjectile(this, target.position, type);
             }
         }

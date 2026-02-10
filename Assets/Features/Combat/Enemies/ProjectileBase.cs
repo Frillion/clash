@@ -28,8 +28,8 @@ namespace Clash.Features.Combat
 
         protected void FixedUpdate()
         {
-            _velocity += _acceleration * Time.fixedDeltaTime;
-            transform.position += (Vector3)(_velocityDir * (_velocity * Time.fixedDeltaTime));
+            _velocity += _acceleration * TimeManager.Instance.fixedDeltaTime;
+            transform.position += (Vector3)(_velocityDir * (_velocity * TimeManager.Instance.fixedDeltaTime));
             _renderer.material.SetVector(Velocity,(Vector4)_velocityDir * (_velocity * stretchStrength));
             if (!_renderer.isVisible) Despawn(); 
         }
@@ -66,6 +66,7 @@ namespace Clash.Features.Combat
         {
             _velocity = 0;
             _acceleration = 0;
+            TimeManager.Instance.PauseFor(100, token).Forget();
             await UniTask.Delay(100, DelayType.DeltaTime, cancellationToken:token);
         
             if (token.IsCancellationRequested)
