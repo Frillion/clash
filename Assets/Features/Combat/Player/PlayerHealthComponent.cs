@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,6 +8,7 @@ namespace Clash.Features.Combat
 {
     public interface IHealth
     {
+        public void Init();
         public Guid GetID();
         public void SetGuid(Guid id);
         public float GetCurrentHp();
@@ -21,6 +23,11 @@ namespace Clash.Features.Combat
         private float _health;
 
         public void Awake()
+        {
+            Init();
+        }
+
+        public void Init()
         {
             _health = health;
         }
@@ -42,6 +49,7 @@ namespace Clash.Features.Combat
 
         public void Damage(float damage)
         {
+            TimeManager.Instance.SetTimeScaleFor(0.5f, 100).Forget();
             _health -= damage;
         }
 

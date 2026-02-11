@@ -11,6 +11,7 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
     
     private float _savedTime;
     private bool _paused;
+    private float _timeScale;
     private CancellationTokenSource _timeSystemToken;
 
     private new void Awake()
@@ -28,6 +29,7 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
                 CancellationToken.None);
         
         _paused = false;
+        _timeScale = 1;
         TickTime(_timeSystemToken.Token).Forget();
     }
 
@@ -38,6 +40,21 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
         await UniTask.Delay(milliseconds, DelayType.Realtime, cancellationToken: token);
         _paused = false;
         totalTime = _savedTime;
+    }
+
+    public async UniTask SetTimeScaleFor(float timeScale, int milliseconds, CancellationToken? token = null)
+    {
+        _timeScale = timeScale;
+        if (token == null)
+        {
+            await UniTask.Delay(milliseconds, DelayType.Realtime, cancellationToken: _timeSystemToken.Token);
+        }
+        else
+        {
+            await UniTask.Delay(milliseconds, DelayType.Realtime, cancellationToken:token.Value);
+        }
+
+        _timeScale = 1;
     }
 
     public async UniTask PauseGuard(CancellationToken token)
@@ -60,9 +77,9 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
             }
             else
             {
-                totalTime += Time.deltaTime;
-                deltaTime = Time.deltaTime;
-                fixedDeltaTime = Time.fixedDeltaTime;
+                totalTime += Time.deltaTime * _timeScale;
+                deltaTime = Time.deltaTime * _timeScale;
+                fixedDeltaTime = Time.fixedDeltaTime * _timeScale;
             }
 
             await UniTask.NextFrame(cancellationToken: token);
