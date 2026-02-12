@@ -274,6 +274,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1797491562}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &451480361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9052803643821003605, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
+  m_PrefabInstance: {fileID: 3997702544833897398}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &451480365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451480361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5169d268c40142abea108b5d0fec5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAlpha: 0
 --- !u!1 &457041143
 GameObject:
   m_ObjectHideFlags: 0
@@ -1384,10 +1402,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5519964141515254567, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6096611513462572981, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 2085755495}
+    - target: {fileID: 8193856948303221566, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
+      propertyPath: m_Color.a
+      value: 0.49803922
+      objectReference: {fileID: 0}
     - target: {fileID: 8642921904963513525, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1468,10 +1494,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9052803643821003605, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185050691918159527, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
+      propertyPath: m_fontColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185050691918159527, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4258254799
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9052803643821003605, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 451480365}
   m_SourcePrefab: {fileID: 100100000, guid: 6fb2a5e18e12a0715a89fb561f656d0e, type: 3}
 --- !u!1001 &6237905382968258346
 PrefabInstance:
