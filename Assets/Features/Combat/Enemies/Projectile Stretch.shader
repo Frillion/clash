@@ -4,6 +4,7 @@ Shader "Unlit/Projectile Stretch"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _velocity ("Velocity", Vector) = (0,0,0,0)
+        _color ("Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -50,6 +51,8 @@ Shader "Unlit/Projectile Stretch"
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
+            
+            float4 _color;
 
             fixed4 frag (v2f i) : SV_Target
             {
@@ -57,7 +60,7 @@ Shader "Unlit/Projectile Stretch"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+                return col * _color;
             }
             ENDCG
         }

@@ -11,6 +11,7 @@ namespace Clash.Features.Combat
         [SerializeField] private float slashDuration;
         [SerializeField] private float cooldown;
         [SerializeField] private SlashLifetime slashPrefab;
+        private float _timeSinceLastSlash;
         private ObjectPool<SlashLifetime> _slashPool;
 
         private void Awake()
@@ -19,16 +20,20 @@ namespace Clash.Features.Combat
                 slashPrefab,
                 initialPoolSize:2
             );
+            
+            _timeSinceLastSlash = cooldown;
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            _timeSinceLastSlash += Time.deltaTime;
+            if (Input.GetMouseButtonDown(0) && _timeSinceLastSlash >= cooldown)
             {
                 var newSlash = _slashPool.Spawn(transform.position);
                 newSlash.transform.right = RadialInput.Instance.direction;
                 newSlash.Initialize(slashDuration);
+                _timeSinceLastSlash = 0;
             }
 
             transform.position = RadialInput.Instance.inputPosition;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Clash.Extensions;
 using Clash.Utillities;
@@ -11,14 +12,15 @@ namespace Clash.Features.Combat
 {
     public interface IEnemy
     {
-        Guid GetId();
-        void SetId(Guid id);
+        IdComponent GetIdReference();
+        IHealth GetHealthComponent();
         void SetOrigin(Vector2 origin);
         UniTask MoveTo(Vector2 dest, CancellationToken token);
     }
 
     public class EnemySystem : SingletonMonoBehaviour<EnemySystem>
     {
+        public Transform playerTransform;
         public List<Transform> spawnPoints;
         public List<Transform> destinationPoints;
 
@@ -26,9 +28,12 @@ namespace Clash.Features.Combat
         private ObjectPool<Crow> _crowSpawner;
         private readonly List<Crow> _activeCrows = new();
 
-        private CancellationTokenSource _enemyBehaviourTokenSource;
 
-        [SerializeField] private int spawnDelayMS;
+        [SerializeField] private int spawnDelayMSStart;
+        [SerializeField] private AnimationCurve spawnRateScaling;
+        [SerializeField] private float scalingDuration;
+        [SerializeField] private int spawnDelayMSMin;
+        private int _currentSpawnDelayMS;
 
         private new void Awake() // Temporary For Testing
         {
@@ -38,15 +43,29 @@ namespace Clash.Features.Combat
 
         public void Init()
         {
-            _enemyBehaviourTokenSource?.Cancel();
-            _enemyBehaviourTokenSource?.Dispose();
-            _enemyBehaviourTokenSource =
+            TokenSystem.Instance.AddToken(nameof(EnemySystem),
                 CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),
-                    CancellationToken.None);
+                    CancellationToken.None));
+
+            _currentSpawnDelayMS = spawnDelayMSStart;
             
             ResetPools();
-            SpawnLoop(_enemyBehaviourTokenSource.Token).Forget();
+            SpawnLoop(TokenSystem.Instance.GetToken(nameof(EnemySystem)).Token).Forget();
         }
+
+        public void DamageEnemy(Guid id, float damage)
+        {
+            var crowToDamage = _activeCrows.First(crow => crow.GetIdReference().ID == id);
+            crowToDamage.GetHealthComponent().Damage(damage);
+        }
+
+        public void NotifyDeath(Guid id)
+        {
+            var crowToDie = _activeCrows.First(crow => crow.GetIdReference().ID == id);
+            crowToDie.Despawn();
+            _activeCrows.Remove(crowToDie);
+        }
+
 
         private async UniTask SpawnLoop(CancellationToken token)
         {
@@ -54,13 +73,22 @@ namespace Clash.Features.Combat
             {
                 var spawn = spawnPoints.Random();
                 var newSpawn = _crowSpawner.Spawn(spawn.position);
+                newSpawn.GetIdReference().ID = Guid.NewGuid();
                 newSpawn.SetOrigin(spawn.position);
+                
+                TokenSystem.Instance.AddToken(newSpawn.GetIdReference().ID.ToString(),
+                    CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),
+                        CancellationToken.None));
+                
                 newSpawn.MoveTo(destinationPoints.Random().position, token).Forget(); // Temporary Test, Change
                 _activeCrows.Add(newSpawn);
                 
-                await UniTask.Delay(spawnDelayMS,
+                await UniTask.Delay(_currentSpawnDelayMS,
                     DelayType.Realtime, PlayerLoopTiming.Update,
                     token);
+                
+                _currentSpawnDelayMS = (int)Mathf.Lerp(spawnDelayMSStart, spawnDelayMSMin,
+                    spawnRateScaling.Evaluate(Time.time / scalingDuration));
             }
         }
 

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4169679847148947474}
   - component: {fileID: 8752433589154360537}
   - component: {fileID: 5574016157524776968}
+  - component: {fileID: 6236446513119131792}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -73,6 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdf3139f8bb31b1d9683b48885e375e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -92,8 +94,47 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   crowPrefab: {fileID: -791900079942978967, guid: 0c7d57844dfaff9b783783d73b3f5bb3, type: 3}
-  spawnDelayMS: 20000
+  spawnDelayMSStart: 20000
+  spawnRateScaling:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.43400645
+      value: 0.61364275
+      inSlope: 1.4357345
+      outSlope: 1.4357345
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scalingDuration: 200
+  spawnDelayMSMin: 300
 --- !u!114 &8752433589154360537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,4 +162,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b078c1a6c1d282375b28ac553cafdbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayMultiplier: 1
+  displayMultiplier: 1000
+--- !u!114 &6236446513119131792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835396961321881718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fe70f46eb0616be9d342d5c05aa6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

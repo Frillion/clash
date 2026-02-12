@@ -3,25 +3,22 @@ using UnityEngine;
 
 namespace Clash.Features.Combat
 {
+    [RequireComponent(typeof(IdComponent))]
     public class EnemyHealthComponent : MonoBehaviour, IHealth
     {
-        private Guid _id;
+        private IdComponent _id;
         [SerializeField] private int totalHits = 1;
         private int _hitsLeft;
 
         public void Init()
         {
             _hitsLeft = Mathf.Max(1, totalHits);
+            _id = GetComponent<IdComponent>();
         }
 
-        public Guid GetID()
+        public IdComponent GetIdReference()
         {
             return _id;
-        }
-
-        public void SetGuid(Guid id)
-        {
-            _id = id;
         }
 
         public float GetCurrentHp()
@@ -32,11 +29,15 @@ namespace Clash.Features.Combat
         public void Damage(float damage)
         {
             _hitsLeft -= (int)MathF.Round(damage);
+            if (_hitsLeft <= 0)
+            {
+                Death();
+            }
         }
 
         public void Death()
         {
-            throw new NotImplementedException();
+            EnemySystem.Instance.NotifyDeath(_id.ID);
         }
     }
 }

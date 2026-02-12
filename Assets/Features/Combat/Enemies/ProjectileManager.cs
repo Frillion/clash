@@ -10,14 +10,15 @@ namespace Clash.Features.Combat
 {
     public interface IProjectile
     {
-        Guid GetGuid();
-        void SetGuid(Guid id);
+        IdComponent GetIdReference();
         UniTask OnReflected(Vector2 origin, CancellationToken token);
         void SetTrajectory(Vector2 trajectory);
     }
 
     public interface IProjectileOwner
     {
+        IdComponent GetIdReference();
+        UniTask ShootLoop(CancellationToken token);
         Vector2 GetPosition();
     }
 
@@ -31,7 +32,6 @@ namespace Clash.Features.Combat
         [SerializeField] private ProjectileBase basicProjectilePrefab;
         private ObjectPool<ProjectileBase> _baseProjectilePool;
         private readonly Dictionary<Guid, IProjectileOwner> _projectileToOwner = new();
-        private CancellationTokenSource _projectileTokenSource;
 
         private void ResetPools(bool createNew = true)
         {
@@ -46,22 +46,16 @@ namespace Clash.Features.Combat
         {
             base.Awake();
             ResetPools();
-            
-            if (_projectileTokenSource != null)
-            {
-                _projectileTokenSource.Cancel();
-                _projectileTokenSource.Dispose();
-            }
-            
-            _projectileTokenSource =
+
+            TokenSystem.Instance.AddToken(nameof(ProjectileManager),
                 CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),
-                    CancellationToken.None);
+                    CancellationToken.None));
         }
 
         public void NotifyReflection(IProjectile projectile)
         {
-            projectile.OnReflected(_projectileToOwner[projectile.GetGuid()].GetPosition(), 
-                _projectileTokenSource.Token).Forget();
+            projectile.OnReflected(_projectileToOwner[projectile.GetIdReference().ID].GetPosition(), 
+            TokenSystem.Instance.GetToken(nameof(ProjectileManager)).Token).Forget();
         }
 
         public void SpawnProjectile(IProjectileOwner owner, Vector2 target, ProjectileType type)
@@ -72,9 +66,15 @@ namespace Clash.Features.Combat
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
             
-            proj.SetGuid(Guid.NewGuid());
-            _projectileToOwner.Add(proj.GetGuid(), owner);
+            proj.GetIdReference().ID = Guid.NewGuid();
+            _projectileToOwner.Add(proj.GetIdReference().ID, owner);
             proj.SetTrajectory((target-owner.GetPosition()).normalized);
+        }
+
+        public bool IsOwner(IProjectile projectile, IProjectileOwner owner)
+        {
+            return _projectileToOwner[projectile.GetIdReference().ID].GetIdReference().ID
+                   == owner.GetIdReference().ID;
         }
     }
 }

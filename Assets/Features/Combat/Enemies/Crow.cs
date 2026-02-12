@@ -8,39 +8,68 @@ using UnityEngine;
 
 namespace Clash.Features.Combat
 {
-    public class Crow : Spawnable, IEnemy
+    [RequireComponent(typeof(EnemyHealthComponent))]
+    [RequireComponent(typeof(IdComponent))]
+    public class Crow : Spawnable, IEnemy, IProjectileOwner
     {
-        private Guid _id;
+        private IdComponent _id;
         private Vector2 _spawnPosition;
         [SerializeField] private AnimationCurve smoothing;
         [SerializeField] private float movementAnimationDuration;
+        [SerializeField] private ProjectileType type;
+        [SerializeField] private float cooldown;
         private float _animationTime;
 
         private CrowBodyAnim _bodyAnimator;
         private List<WingAnimation> _wingAnimators;
+
+        private EnemyHealthComponent _health;
         
-        public Guid GetId()
-        {
-            return _id;
-        }
 
         private void Awake()
         {
             _bodyAnimator = GetComponentInChildren<CrowBodyAnim>();
             _wingAnimators = GetComponentsInChildren<WingAnimation>().ToList();
+            _health = GetComponent<EnemyHealthComponent>();
+            _id = GetComponent<IdComponent>();
         }
+        
 
         public override void Spawn()
         {
             _animationTime = 0;
             _bodyAnimator.Init();
+            _health.Init();
             _wingAnimators.ForEach(animator => animator.Init());
+
+            
             base.Spawn();
         }
 
-        public void SetId(Guid id)
+        public override void Despawn()
         {
-            _id = id;
+            TokenSystem.Instance.Cancel(_id.ID.ToString());
+            base.Despawn();
+        }
+
+        public IdComponent GetIdReference()
+        {
+            return _id;
+        }
+
+        public async UniTask ShootLoop(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                await UniTask.WaitForSeconds(cooldown, cancellationToken: token);
+                await TimeManager.Instance.PauseGuard(token);
+                ProjectileManager.Instance.SpawnProjectile(this, EnemySystem.Instance.playerTransform.position, type);
+            }
+        }
+
+        public IHealth GetHealthComponent()
+        {
+            return _health;
         }
 
         public void SetOrigin(Vector2 origin)
@@ -57,8 +86,24 @@ namespace Clash.Features.Combat
                 
                 transform.position = 
                     Vector2.Lerp(_spawnPosition, dest, smoothing.Evaluate(_animationTime));
+                if (transform.position == (Vector3)dest)
+                {
+                    ShootLoop(TokenSystem.Instance.GetToken(_id.ID.ToString()).Token).Forget();
+                    return;
+                }
+
                 await UniTask.NextFrame(cancellationToken: token);
             }
+        }
+
+        public Vector2 GetPosition()
+        {
+            return transform.position;
+        }
+
+        public void Damage(float damage)
+        {
+            _health.Damage(damage);
         }
     }
 }

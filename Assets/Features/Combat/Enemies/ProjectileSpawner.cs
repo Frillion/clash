@@ -5,22 +5,28 @@ using UnityEngine;
 
 namespace Clash.Features.Combat
 {
+    [RequireComponent(typeof(IdComponent))]
     public class ProjectileSpawner : MonoBehaviour, IProjectileOwner
     {
         [SerializeField] private ProjectileType type;
         [SerializeField] private float cooldown;
         [SerializeField] private Transform target;
         private CancellationTokenSource _shotCancel;
+        private IdComponent _id;
 
         public void Awake()
         {
+            _shotCancel?.Cancel();
+            _shotCancel?.Dispose();
             _shotCancel =
                 CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),
                     CancellationToken.None);
+
+            _id = GetComponent<IdComponent>();
             ShootLoop(_shotCancel.Token).Forget();
         }
 
-        private async UniTask ShootLoop(CancellationToken token)
+        public async UniTask ShootLoop(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
@@ -28,6 +34,11 @@ namespace Clash.Features.Combat
                 await TimeManager.Instance.PauseGuard(token);
                 ProjectileManager.Instance.SpawnProjectile(this, target.position, type);
             }
+        }
+
+        public IdComponent GetIdReference()
+        {
+            return _id;
         }
 
         public Vector2 GetPosition()

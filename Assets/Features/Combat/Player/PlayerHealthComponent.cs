@@ -9,8 +9,7 @@ namespace Clash.Features.Combat
     public interface IHealth
     {
         public void Init();
-        public Guid GetID();
-        public void SetGuid(Guid id);
+        public IdComponent GetIdReference();
         public float GetCurrentHp();
         public void Damage(float damage);
         public void Death();
@@ -18,9 +17,11 @@ namespace Clash.Features.Combat
 
     public class PlayerHealthComponent : MonoBehaviour, IHealth
     {
-        private Guid _id;
+        private IdComponent _id;
         public float health;
         private float _health;
+
+        public static Action OnDamaged;
 
         public void Awake()
         {
@@ -29,17 +30,13 @@ namespace Clash.Features.Combat
 
         public void Init()
         {
+            _id = GetComponent<IdComponent>();
             _health = health;
         }
 
-        public Guid GetID()
+        public IdComponent GetIdReference()
         {
             return _id;
-        }
-
-        public void SetGuid(Guid id)
-        {
-            _id = id;
         }
 
         public float GetCurrentHp()
@@ -49,13 +46,18 @@ namespace Clash.Features.Combat
 
         public void Damage(float damage)
         {
-            TimeManager.Instance.SetTimeScaleFor(0.5f, 100).Forget();
+            TimeManager.Instance.SetTimeScaleFor(0.5f, 300).Forget();
+            OnDamaged?.Invoke();
             _health -= damage;
+            if (_health <= 0)
+            {
+                Death();
+            }
         }
 
         public void Death()
         {
-            throw new NotImplementedException();
+            TokenSystem.Instance.CancelAll();
         }
     }
 }

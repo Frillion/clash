@@ -4,6 +4,9 @@ Shader "Unlit/VerticalCut"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _threshold ("Threshold", Float) = 0.0
+        _dirtColor ("Dirt Color", Color) = (1,1,1,1)
+        _grassColor ("Grass Color", Color) = (1,1,1,1)
+        _grassThreshold ("Grass Threshold", Float) = 0.5
     }
     SubShader
     {
@@ -39,6 +42,9 @@ Shader "Unlit/VerticalCut"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _threshold;
+            float4 _dirtColor;
+            float4 _grassColor;
+            float _grassThreshold;
             
             float remap_uv(float value, float min, float max)
             {
@@ -60,9 +66,11 @@ Shader "Unlit/VerticalCut"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
-                float usable_uv = remap_uv(i.uv.y,1,0);
-                col.a = step(_threshold, usable_uv);
-                return col;
+                float remapped_uv = remap_uv(i.uv.y,1,0);
+                float4 grass = _grassColor * step(_grassThreshold,i.uv.y);
+                float4 dirt = _dirtColor * step(1 - _grassThreshold,remapped_uv);
+                col.a = step(_threshold, remapped_uv);
+                return col * grass + col * dirt;
             }
             ENDCG
         }
