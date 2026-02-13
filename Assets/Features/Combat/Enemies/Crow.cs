@@ -63,7 +63,7 @@ namespace Clash.Features.Combat
             {
                 await UniTask.WaitForSeconds(cooldown, cancellationToken: token);
                 await TimeManager.Instance.PauseGuard(token);
-                ProjectileManager.Instance.SpawnProjectile(this, EnemySystem.Instance.playerTransform.position, type);
+                ProjectileManager.Instance.SpawnProjectile(this, GameManager.Instance.playerTransform.position, type);
             }
         }
 

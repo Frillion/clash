@@ -21,7 +21,6 @@ namespace Clash.Features.Combat
 
     public class EnemySystem : SingletonMonoBehaviour<EnemySystem>
     {
-        public Transform playerTransform;
         public List<Transform> spawnPoints;
         public List<Transform> destinationPoints;
 
@@ -58,6 +57,7 @@ namespace Clash.Features.Combat
         {
             var crowToDie = _activeCrows.First(crow => crow.GetIdReference().ID == id);
             crowToDie.Despawn();
+            TokenSystem.Instance.Cancel(crowToDie.GetIdReference().ID.ToString());
             ProjectileManager.Instance.ClearOwner(crowToDie);
             _activeCrows.Remove(crowToDie);
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
+   public Transform playerTransform;
    public Action OnGameStart;
    public Action OnGameEnd;
 
@@ -28,6 +29,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
    public void End()
    {
+      TokenSystem.Instance.CancelAll();
       OnGameEnd?.Invoke();
    }
 }

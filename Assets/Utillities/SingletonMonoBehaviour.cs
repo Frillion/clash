@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Clash.Utillities
 {
+    [DefaultExecutionOrder(-1000)]
     public class SingletonMonoBehaviour<T> : MonoBehaviour where T: SingletonMonoBehaviour<T> 
     {
         private static T _instance;

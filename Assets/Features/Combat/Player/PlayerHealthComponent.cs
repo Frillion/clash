@@ -57,7 +57,6 @@ namespace Clash.Features.Combat
 
         public void Death()
         {
-            TokenSystem.Instance.CancelAll();
             GameManager.Instance.End();
         }
     }

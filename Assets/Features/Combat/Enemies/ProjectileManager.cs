@@ -11,6 +11,7 @@ namespace Clash.Features.Combat
 {
     public interface IProjectile
     {
+        Vector2 GetPosition();
         IdComponent GetIdReference();
         UniTask OnReflected(Vector2 origin, CancellationToken token);
         void SetTrajectory(Vector2 trajectory);
@@ -61,7 +62,7 @@ namespace Clash.Features.Combat
             _projectileToOwner.TryGetValue(projectile.GetIdReference().ID, out var owner);
             if (owner == null)
             {
-                projectile.OnReflected(new Vector2(0, 1),
+                projectile.OnReflected(projectile.GetPosition() - (Vector2)GameManager.Instance.playerTransform.position,
                     TokenSystem.Instance.GetToken(nameof(ProjectileManager)).Token).Forget();
                 
                 return;

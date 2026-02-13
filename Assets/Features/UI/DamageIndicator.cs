@@ -14,9 +14,10 @@ public class DamageIndicator : MonoBehaviour
     private void Awake()
     {
         _renderer = GetComponent<Image>();
+        GameManager.Instance.OnGameStart += StartGame;
     }
 
-    private void Start()
+    private void StartGame()
     {
         TokenSystem.Instance.AddToken(nameof(DamageIndicator),
             CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(), CancellationToken.None));

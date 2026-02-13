@@ -661,10 +661,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4169679847148947474, guid: 2999ac2a38490870581e95f366ee6d20, type: 3}
-      propertyPath: playerTransform
-      value: 
-      objectReference: {fileID: 108040323}
-    - target: {fileID: 4169679847148947474, guid: 2999ac2a38490870581e95f366ee6d20, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 1756183879}
@@ -748,6 +744,10 @@ PrefabInstance:
       propertyPath: 'destinationPoints.Array.data[8]'
       value: 
       objectReference: {fileID: 1407793847}
+    - target: {fileID: 4634910319024118994, guid: 2999ac2a38490870581e95f366ee6d20, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 108040323}
     - target: {fileID: 7835396961321881718, guid: 2999ac2a38490870581e95f366ee6d20, type: 3}
       propertyPath: m_Name
       value: Manager

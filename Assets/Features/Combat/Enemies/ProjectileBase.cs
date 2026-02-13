@@ -71,6 +71,11 @@ namespace Clash.Features.Combat
             }
         }
 
+        public Vector2 GetPosition()
+        {
+            return transform.position;
+        }
+
         public IdComponent GetIdReference()
         {
             return _id;

@@ -75,7 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdf3139f8bb31b1d9683b48885e375e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -100,7 +99,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   crowPrefab: {fileID: -791900079942978967, guid: 0c7d57844dfaff9b783783d73b3f5bb3, type: 3}
-  spawnDelayMSStart: 15000
+  spawnDelayMSStart: 12000
   spawnRateScaling:
     serializedVersion: 2
     m_Curve:
@@ -188,3 +187,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcfb0d9629948ec7c957c62ec44be418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
