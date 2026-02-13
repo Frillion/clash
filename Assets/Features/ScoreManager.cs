@@ -8,12 +8,6 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
     public float displayMultiplier = 1;
     private float _realScore;
 
-    private new void Awake()
-    {
-        base.Awake();
-        Init(); // Temporary before adding launching system
-    }
-
     public void Init()
     {
         _realScore = 0;
@@ -37,7 +31,7 @@ public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 
     public float GetScore()
     {
-        return _realScore * displayMultiplier;
+        return Mathf.RoundToInt(_realScore * displayMultiplier);
     }
 
     public void AddScore(float score)

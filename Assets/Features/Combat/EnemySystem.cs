@@ -5,6 +5,7 @@ using System.Threading;
 using Clash.Extensions;
 using Clash.Utillities;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -35,12 +36,6 @@ namespace Clash.Features.Combat
         [SerializeField] private int spawnDelayMSMin;
         private int _currentSpawnDelayMS;
 
-        private new void Awake() // Temporary For Testing
-        {
-            base.Awake();
-            Init();
-        } 
-
         public void Init()
         {
             TokenSystem.Instance.AddToken(nameof(EnemySystem),
@@ -63,7 +58,14 @@ namespace Clash.Features.Combat
         {
             var crowToDie = _activeCrows.First(crow => crow.GetIdReference().ID == id);
             crowToDie.Despawn();
+            ProjectileManager.Instance.ClearOwner(crowToDie);
             _activeCrows.Remove(crowToDie);
+        }
+
+        public void Clear()
+        {
+            _activeCrows.ForEach(crow => crow.Despawn());
+            _activeCrows.Clear();
         }
 
 
@@ -80,15 +82,16 @@ namespace Clash.Features.Combat
                     CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),
                         CancellationToken.None));
                 
-                newSpawn.MoveTo(destinationPoints.Random().position, token).Forget(); // Temporary Test, Change
+                newSpawn.MoveTo(destinationPoints.Random().position, token).Forget(); 
                 _activeCrows.Add(newSpawn);
+                ProjectileManager.Instance.Adopt(newSpawn);
                 
                 await UniTask.Delay(_currentSpawnDelayMS,
                     DelayType.Realtime, PlayerLoopTiming.Update,
                     token);
                 
                 _currentSpawnDelayMS = (int)Mathf.Lerp(spawnDelayMSStart, spawnDelayMSMin,
-                    spawnRateScaling.Evaluate(Time.time / scalingDuration));
+                    spawnRateScaling.Evaluate(TimeManager.Instance.totalTime / scalingDuration));
             }
         }
 

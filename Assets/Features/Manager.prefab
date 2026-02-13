@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8752433589154360537}
   - component: {fileID: 5574016157524776968}
   - component: {fileID: 6236446513119131792}
+  - component: {fileID: 4634910319024118994}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -99,7 +100,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   crowPrefab: {fileID: -791900079942978967, guid: 0c7d57844dfaff9b783783d73b3f5bb3, type: 3}
-  spawnDelayMSStart: 20000
+  spawnDelayMSStart: 15000
   spawnRateScaling:
     serializedVersion: 2
     m_Curve:
@@ -113,8 +114,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.43400645
-      value: 0.61364275
+      time: 0.19650646
+      value: 0.53030944
       inSlope: 1.4357345
       outSlope: 1.4357345
       tangentMode: 0
@@ -134,7 +135,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   scalingDuration: 200
-  spawnDelayMSMin: 300
+  spawnDelayMSMin: 400
 --- !u!114 &8752433589154360537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b078c1a6c1d282375b28ac553cafdbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayMultiplier: 1000
+  displayMultiplier: 300
 --- !u!114 &6236446513119131792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,5 +174,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8fe70f46eb0616be9d342d5c05aa6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4634910319024118994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835396961321881718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfb0d9629948ec7c957c62ec44be418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

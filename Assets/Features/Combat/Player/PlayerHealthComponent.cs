@@ -25,7 +25,7 @@ namespace Clash.Features.Combat
 
         public void Awake()
         {
-            Init();
+           GameManager.Instance.OnGameStart += Init; 
         }
 
         public void Init()
@@ -58,6 +58,7 @@ namespace Clash.Features.Combat
         public void Death()
         {
             TokenSystem.Instance.CancelAll();
+            GameManager.Instance.End();
         }
     }
 }

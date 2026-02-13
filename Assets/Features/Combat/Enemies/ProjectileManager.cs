@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Clash.Utillities;
 using Cysharp.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Clash.Features.Combat
         IdComponent GetIdReference();
         UniTask OnReflected(Vector2 origin, CancellationToken token);
         void SetTrajectory(Vector2 trajectory);
+        void Despawn();
     }
 
     public interface IProjectileOwner
@@ -31,7 +33,10 @@ namespace Clash.Features.Combat
     {
         [SerializeField] private ProjectileBase basicProjectilePrefab;
         private ObjectPool<ProjectileBase> _baseProjectilePool;
+        
         private readonly Dictionary<Guid, IProjectileOwner> _projectileToOwner = new();
+        private readonly List<IProjectile> _activeProjectiles = new();
+        private readonly List<Guid> _orphanedProjectiles = new();
 
         private void ResetPools(bool createNew = true)
         {
@@ -42,9 +47,8 @@ namespace Clash.Features.Combat
             }
         }
 
-        protected new void Awake()
+        public void Init()
         {
-            base.Awake();
             ResetPools();
 
             TokenSystem.Instance.AddToken(nameof(ProjectileManager),
@@ -54,6 +58,15 @@ namespace Clash.Features.Combat
 
         public void NotifyReflection(IProjectile projectile)
         {
+            _projectileToOwner.TryGetValue(projectile.GetIdReference().ID, out var owner);
+            if (owner == null)
+            {
+                projectile.OnReflected(new Vector2(0, 1),
+                    TokenSystem.Instance.GetToken(nameof(ProjectileManager)).Token).Forget();
+                
+                return;
+            }
+
             projectile.OnReflected(_projectileToOwner[projectile.GetIdReference().ID].GetPosition(), 
             TokenSystem.Instance.GetToken(nameof(ProjectileManager)).Token).Forget();
         }
@@ -69,12 +82,43 @@ namespace Clash.Features.Combat
             proj.GetIdReference().ID = Guid.NewGuid();
             _projectileToOwner.Add(proj.GetIdReference().ID, owner);
             proj.SetTrajectory((target-owner.GetPosition()).normalized);
+            _activeProjectiles.Add(proj);
+        }
+
+        public void Adopt(IProjectileOwner newOwner)
+        {
+            _orphanedProjectiles.ForEach(projectile => _projectileToOwner.TryAdd(projectile, newOwner));
+        }
+
+        public void ClearOwner(IProjectileOwner owner)
+        {
+            List<Guid> keysToRemove = new();
+            foreach (var keyValuePair in _projectileToOwner
+                         .Where(keyValuePair => keyValuePair.Value.GetIdReference().ID == owner.GetIdReference().ID))
+            {
+                keysToRemove.Add(keyValuePair.Key);
+                if(!_orphanedProjectiles.Contains(keyValuePair.Key)) _orphanedProjectiles.Add(keyValuePair.Key);
+            }
+            
+            keysToRemove.ForEach(key => _projectileToOwner.Remove(key));
+        }
+
+        public void Clear()
+        {
+            _activeProjectiles.ForEach(projectile => projectile.Despawn());
+            _activeProjectiles.Clear();
+            _projectileToOwner.Clear();
         }
 
         public bool IsOwner(IProjectile projectile, IProjectileOwner owner)
         {
-            return _projectileToOwner[projectile.GetIdReference().ID].GetIdReference().ID
-                   == owner.GetIdReference().ID;
+            _projectileToOwner.TryGetValue(projectile.GetIdReference().ID, out var storedOwner);
+            if (storedOwner == null)
+            {
+                return false;
+            }
+
+            return storedOwner.GetIdReference().ID == owner.GetIdReference().ID;
         }
     }
 }

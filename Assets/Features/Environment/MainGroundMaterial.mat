@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Threshold: 0
-    - _grassThreshold: 0.43
+    - _grassThreshold: 0.4
     - _threshold: 0.5
     m_Colors:
     - _dirtColor: {r: 0.1792453, g: 0.078564435, b: 0.026210396, a: 1}

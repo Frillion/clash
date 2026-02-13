@@ -9,37 +9,26 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
     [HideInInspector] public float deltaTime;
     [HideInInspector] public float fixedDeltaTime;
     
-    private float _savedTime;
     private bool _paused;
     private float _timeScale;
-    private CancellationTokenSource _timeSystemToken;
-
-    private new void Awake()
-    {
-        base.Awake();
-        Init(); // Temporary, Remove When Finishing
-    }
 
     public void Init()
     {
-        _timeSystemToken?.Cancel();
-        _timeSystemToken?.Dispose();
-        _timeSystemToken =
+        TokenSystem.Instance.AddToken(nameof(TimeManager),
             CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy(),
-                CancellationToken.None);
+                CancellationToken.None));
         
         _paused = false;
         _timeScale = 1;
-        TickTime(_timeSystemToken.Token).Forget();
+        totalTime = 0;
+        TickTime(TokenSystem.Instance.GetToken(nameof(TimeManager)).Token).Forget();
     }
 
     public async UniTask PauseFor(int milliseconds, CancellationToken token)
     {
-        _savedTime = totalTime;
         _paused = true;
         await UniTask.Delay(milliseconds, DelayType.Realtime, cancellationToken: token);
         _paused = false;
-        totalTime = _savedTime;
     }
 
     public async UniTask SetTimeScaleFor(float timeScale, int milliseconds, CancellationToken? token = null)
@@ -47,7 +36,7 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
         _timeScale = timeScale;
         if (token == null)
         {
-            await UniTask.Delay(milliseconds, DelayType.Realtime, cancellationToken: _timeSystemToken.Token);
+            await UniTask.Delay(milliseconds, DelayType.Realtime, cancellationToken: TokenSystem.Instance.GetToken(nameof(TimeManager)).Token);
         }
         else
         {
@@ -71,7 +60,6 @@ public class TimeManager : SingletonMonoBehaviour<TimeManager>
         {
             if (_paused)
             {
-                totalTime = 0;
                 deltaTime = 0;
                 fixedDeltaTime = 0;
             }
