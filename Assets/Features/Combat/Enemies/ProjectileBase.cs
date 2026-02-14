@@ -14,14 +14,18 @@ namespace Clash.Features.Combat
         private static readonly int Velocity = Shader.PropertyToID("_velocity");
         private static readonly int Color1 = Shader.PropertyToID("_color");
         private IdComponent _id;
+        
         public float acceleration;
         public float initialVelocity;
         public float stretchStrength;
+        
         private float _acceleration;
         private bool _reflected;
         private float _velocity;
         private Vector2 _velocityDir;
         private SpriteRenderer _renderer;
+
+        [SerializeField] private Color originalColor;
 
         protected void Awake()
         {
@@ -45,7 +49,7 @@ namespace Clash.Features.Combat
             _reflected = false;
             _velocity = initialVelocity;
             _renderer.material.SetVector(Velocity,(Vector4)_velocityDir * _velocity);
-            _renderer.material.SetColor(Color1, new Color(1,1,1,1));
+            _renderer.material.SetColor(Color1, originalColor);
             base.Despawn();
         }
 

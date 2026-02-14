@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3207547, g: 0.13163048, b: 0.1976112, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   acceleration: 5
   initialVelocity: 1
   stretchStrength: 0.6
+  originalColor: {r: 0.42352942, g: 0.1764706, b: 0.33333334, a: 1}
 --- !u!50 &-5357214000959258675
 Rigidbody2D:
   serializedVersion: 5

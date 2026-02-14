@@ -33,7 +33,7 @@ Material:
     - _grassThreshold: 0.4
     - _threshold: 0.5
     m_Colors:
-    - _dirtColor: {r: 0.1792453, g: 0.078564435, b: 0.026210396, a: 1}
-    - _grassColor: {r: 0.05762726, g: 0.3490566, b: 0.06232773, a: 1}
+    - _dirtColor: {r: 0.2924528, g: 0.08690815, b: 0.18121573, a: 1}
+    - _grassColor: {r: 0.090010665, g: 0.2264151, b: 0.024563907, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

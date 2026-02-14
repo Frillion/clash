@@ -18,8 +18,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
       OnGameEnd += ProjectileManager.Instance.Clear;
       OnGameEnd += EnemySystem.Instance.Clear;
-      
-      StartGame();
    }
 
    public void StartGame()

@@ -5,6 +5,7 @@ Shader "Unlit/WingSpineShader"
         _MainTex ("Texture", 2D) = "white" {}
         _radius ("Radius", Float) = 1.0
         _threshold("Threshold", Float) = 1.0
+        _color("Color", Color) = (0.0,0.0,0.0,1.0)
     }
     SubShader
     {
@@ -64,10 +65,11 @@ Shader "Unlit/WingSpineShader"
                 return o;
             }
 
+            float4 _color;
             fixed4 frag (v2f i) : SV_Target
             {
                 if (metaballdensity(i.world_pos) < _threshold){discard;}
-                return float4(0.0,0.0,0.0,1.0);
+                return _color;
             }
             ENDCG
         }
