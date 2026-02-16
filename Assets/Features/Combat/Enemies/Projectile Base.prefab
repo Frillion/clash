@@ -107,7 +107,7 @@ MonoBehaviour:
   acceleration: 5
   initialVelocity: 1
   stretchStrength: 0.6
-  originalColor: {r: 0.42352942, g: 0.1764706, b: 0.33333334, a: 1}
+  originalColor: {r: 0.7830189, g: 0.29178533, b: 0.60367966, a: 1}
 --- !u!50 &-5357214000959258675
 Rigidbody2D:
   serializedVersion: 5

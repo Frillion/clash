@@ -187,6 +187,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8561671028467581332, guid: 57f8949e1fcf314fcaf28b98b34e5e77, type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 11400000, guid: b262a32caf1f8f0559c4c85bf102552d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -749,6 +753,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3904337332066926330, guid: 2999ac2a38490870581e95f366ee6d20, type: 3}
+      propertyPath: listener
+      value: 
+      objectReference: {fileID: 1844663963}
+    - target: {fileID: 3904337332066926330, guid: 2999ac2a38490870581e95f366ee6d20, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 1534358659200523680, guid: d51878f80864eb148b3ae69dbbac291e, type: 3}
     - target: {fileID: 4169679847148947474, guid: 2999ac2a38490870581e95f366ee6d20, type: 3}
       propertyPath: 'spawnPoints.Array.data[0]'
       value: 
@@ -1560,6 +1572,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5047716074202857767, guid: 57ff1f52543c6572b81f8cba56725430, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593329784505675352, guid: 57ff1f52543c6572b81f8cba56725430, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18.49
+      objectReference: {fileID: 0}
     - target: {fileID: 5818103408808867951, guid: 57ff1f52543c6572b81f8cba56725430, type: 3}
       propertyPath: m_Name
       value: Level Environment

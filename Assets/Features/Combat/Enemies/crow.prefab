@@ -214,6 +214,8 @@ MonoBehaviour:
   movementAnimationDuration: 1
   type: 0
   cooldown: 1
+  clip: {fileID: 11400000, guid: 5daa160013d89bd958e2ddd29be5a526, type: 2}
+  deathClip: {fileID: 11400000, guid: 1300f969b0ccf16eb88024104124f2bd, type: 2}
 --- !u!114 &818914153579107996
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using Clash.Features.Audio;
 using Clash.Features.Combat;
 using Clash.Utillities;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
    public void Start()
    {
       OnGameStart += ProjectileManager.Instance.Init;
+      OnGameStart += AudioManager.Instance.Init;
       OnGameStart += EnemySystem.Instance.Init;
       OnGameStart += TimeManager.Instance.Init;
       OnGameStart += ScoreManager.Instance.Init;

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Clash.Features.Audio;
 using UnityEngine;
 using Clash.Utillities;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 
 namespace Clash.Features.Combat
@@ -11,6 +13,7 @@ namespace Clash.Features.Combat
         [SerializeField] private float slashDuration;
         [SerializeField] private float cooldown;
         [SerializeField] private SlashLifetime slashPrefab;
+        [SerializeField] private AudioSettings clip;
         private float _timeSinceLastSlash;
         private ObjectPool<SlashLifetime> _slashPool;
 
@@ -31,6 +34,7 @@ namespace Clash.Features.Combat
             if (Input.GetMouseButtonDown(0) && _timeSinceLastSlash >= cooldown)
             {
                 var newSlash = _slashPool.Spawn(transform.position);
+                AudioManager.Instance.Play(clip).Forget();
                 newSlash.transform.right = RadialInput.Instance.direction;
                 newSlash.Initialize(slashDuration);
                 _timeSinceLastSlash = 0;

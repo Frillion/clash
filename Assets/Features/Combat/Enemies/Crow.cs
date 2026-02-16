@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Clash.Features.Audio;
 using Clash.Utillities;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -18,6 +19,8 @@ namespace Clash.Features.Combat
         [SerializeField] private float movementAnimationDuration;
         [SerializeField] private ProjectileType type;
         [SerializeField] private float cooldown;
+        [SerializeField] private AudioSettings clip;
+        [SerializeField] private AudioSettings deathClip;
         private float _animationTime;
 
         private CrowBodyAnim _bodyAnimator;
@@ -41,14 +44,15 @@ namespace Clash.Features.Combat
             _bodyAnimator.Init();
             _health.Init();
             _wingAnimators.ForEach(animator => animator.Init());
-
+            
             
             base.Spawn();
         }
 
         public override void Despawn()
         {
-            TokenSystem.Instance.Cancel(_id.ID.ToString());
+            AudioManager.Instance.Play(deathClip).Forget();
+            
             base.Despawn();
         }
 
@@ -79,6 +83,8 @@ namespace Clash.Features.Combat
 
         public async UniTask MoveTo(Vector2 dest, CancellationToken token)
         {
+            Debug.Log("Move Called For" + _id.ID);
+            AudioManager.Instance.Play(clip, token).Forget();
             while (!token.IsCancellationRequested)
             {
                 _animationTime += Time.deltaTime;

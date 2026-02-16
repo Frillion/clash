@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c0c912a207a3dd8b47641f3fd31e00, type: 3}
+  m_Name: SwingNoise
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 1dd5d058ecbd66a8585ccc0735cd4dac, type: 3}
+  minPitch: 0.1
+  maxPitch: 0.15
+  lengthPercent: 0.15
